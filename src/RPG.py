@@ -123,23 +123,26 @@ class RPG:
     
     async def buyItem(self, item, id=None, member=None, count=1):
         if item in self.me.rpg.items:
-            if not id and not member:
-                print('[RPG] Can\'t memberBuyItem! I\'m not find id / member arguments')
-                return 'Error Occured'
-            elif not id:
-                if self.me.rpg.members[member.id].balance >= self.me.rpg.items[item].price*count:
-                    await self.addMoney(-self.me.rpg.items[item].price*count, member=member)
-                    await self.giveItem(item, member=member, count=count)
-                    return f'You bought `{item}` for `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}`'
+            if not self.me.rpg.items[item].hidden:
+                if not id and not member:
+                    print('[RPG] Can\'t memberBuyItem! I\'m not find id / member arguments')
+                    return 'Error Occured'
+                elif not id:
+                    if self.me.rpg.members[member.id].balance >= self.me.rpg.items[item].price*count:
+                        await self.addMoney(-self.me.rpg.items[item].price*count, member=member)
+                        await self.giveItem(item, member=member, count=count)
+                        return f'You bought `{item}` for `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}`'
+                    else:
+                        return f'You need `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}` to buy `{item}`'
                 else:
-                    return f'You need `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}` to buy `{item}`'
+                    if self.me.rpg.members[id].balance >= self.me.rpg.items[item].price*count:
+                        self.addMoney(-self.me.rpg.items[item].price*count, member=member)
+                        self.giveItem(item, member=member, count=count)
+                        return f'You bought `{item}` for `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}`'
+                    else:
+                        return f'You need `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}` to buy `{item}`'
             else:
-                if self.me.rpg.members[id].balance >= self.me.rpg.items[item].price*count:
-                    self.addMoney(-self.me.rpg.items[item].price*count, member=member)
-                    self.giveItem(item, member=member, count=count)
-                    return f'You bought `{item}` for `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}`'
-                else:
-                    return f'You need `{self.me.rpg.items[item].price*count}{self.me.rpg.currency}` to buy `{item}`'
+                return 'You can\'t buy this item!'
         else:
             return f'"{item}" item not found'
 
