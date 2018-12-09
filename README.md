@@ -184,5 +184,9 @@ Item class contain:
  .loot
 
 
+# Changable Variables
+bot.rpg.currency (As default "$")
+bot.rpg.embedColor (As default 0xffc500)
+
 # Coming Soon
  - Keys for lootboxes
