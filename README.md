@@ -153,6 +153,18 @@ bot.rpg.openLootBox(lootbox_item_name, id=None, member=None)
 # Returned: Response
 ```
 
+# Check Functions
+
+Check if member is registered to system
+```
+@commands.check(bot.rpg.registered)
+```
+
+Check if member is not registered to system
+```
+@commands.check(bot.rpg.not_registered)
+```
+
 # Classes
 
 # Member Class
@@ -170,3 +182,7 @@ Item class contain:
  .hidden
  .lootbox
  .loot
+
+
+# Coming Soon
+ - Keys for lootboxes
