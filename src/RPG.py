@@ -198,13 +198,13 @@ class RPG:
             emb = self.EmbedFunction(member, member, 'Profile', color)
             emb.add_field(name='Level', value=self.me.rpg.members[member.id].level)
             emb.add_field(name='XP', value=self.xpString(member=member))
-            emb.add_field(name='Balance', value=self.me.rpg.members[member.id].balance)
+            emb.add_field(name='Balance', value=f'{self.me.rpg.members[member.id].balance}{self.me.rpg.currency}')
             return emb
         else:
             emb = self.EmbedFunction(self.me.get_user(id), self.me.get_user(id), 'Profile', color)
             emb.add_field(name='Level', value=self.me.rpg.members[id].level)
             emb.add_field(name='XP', value=self.xpString(id=id))
-            emb.add_field(name='Balance', value=self.me.rpg.members[id].balance)
+            emb.add_field(name='Balance', value=f'{self.me.rpg.members[id].balance}{self.me.rpg.currency}')
             return emb
 
     def getInventoryEmbed(self, id=None, member=None, color=None):
