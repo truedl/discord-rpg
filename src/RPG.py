@@ -332,7 +332,7 @@ class RPG:
             self.me.rpg.members[member.id] = self.MemberClass(0, 0, 0, self.parseInv(';'))
             await self.db.query(f'INSERT INTO members (id, balance, xp, level, inv) VALUES ("{member.id}", "0", "0", "0", ";")')
         else:
-            self.me.rpg.members[id] = self.MemberClass()
+            self.me.rpg.members[id] = self.MemberClass(0, 0, 0, self.parseInv(';'))
             await self.db.query(f'INSERT INTO members (id, balance, xp, level, inv) VALUES ("{id}", "0", "0", "0", ";")')
     
     def registered(self, ctx):
