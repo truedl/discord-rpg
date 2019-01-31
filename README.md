@@ -168,25 +168,25 @@ Check if member is not registered to system
 # Classes
 
 # Member Class
-Member class contain:
- .balance
- .xp
- .level
+**Member class contain**<br/>
+ .balance<br/>
+ .xp<br/>
+ .level<br/>
  .inv
 
 # Item Class
-Item class contain:
- .price
- .icon
- .rarity
- .hidden
- .lootbox
+**Item class contain**<br/>
+ .price<br/>
+ .icon<br/>
+ .rarity<br/>
+ .hidden<br/>
+ .lootbox<br/>
  .loot
 
 
 # Changable Variables
-bot.rpg.currency (As default "$")
-bot.rpg.embedColor (As default 0xffc500)
+**bot.rpg.currency (As default "$")**<br/>
+**bot.rpg.embedColor (As default 0xffc500)**
 
 # Coming Soon
- - Keys for lootboxes
+ - [ ] Keys for lootboxes
