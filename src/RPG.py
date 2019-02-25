@@ -121,6 +121,22 @@ class RPG:
             else:
                 return False
     
+    def itemCount(self, item, id=None, member=None):
+        """ Check members item count by ID/Member """
+        
+        if not id and not member:
+            print('[RPG] Can\'t getInventory! I\'m not find id / member arguments')
+        elif not id:
+            if item in self.me.rpg.members[member.id].inv:
+                return self.me.rpg.members[member.id].inv[item]
+            else:
+                return 0
+        else:
+            if item in self.me.rpg.members[id].inv:
+                return self.me.rpg.members[member.id].inv[item]
+            else:
+                return 0
+    
     async def buyItem(self, item, id=None, member=None, count=1):
         if item in self.me.rpg.items:
             if not self.me.rpg.items[item].hidden:
@@ -293,7 +309,32 @@ class RPG:
             self.me.rpg.members[id].balance += amount
             await self.db.query(f'UPDATE members SET balance="{self.me.rpg.members[id].balance}" WHERE id="{id}"')
     
-    async def openLootBox(self, lootbox_item_name, key_required=False, key_item_name=None, id=None, member=None):
+    async def craftItem(self, neededItems, toCraft, id=None, member=None):
+        if not id and not member:
+            print('[RPG] Can\'t process addMoney! I\'m not find id / member arguments')
+        elif not id:
+            for x in neededItems:
+                iCount = self.itemCount(x, member=member)
+                if iCount >= neededItems[x]:
+                    pass
+                else:
+                    return f'Not enough {x}, you have `{iCount}` and `{neededItems[x]}` is needed'
+            for x in neededItems:
+                await self.giveItem(x, member=member, count=-neededItems[x])
+            await self.giveItem(toCraft, member=member)
+        else:
+            for x in neededItems:
+                iCount = self.itemCount(x, id=id)
+                if iCount >= neededItems[x]:
+                    pass
+                else:
+                    return f'Not enough {x}, you have `{iCount}` and `{neededItems[x]}` is needed'
+            for x in neededItems:
+                await self.giveItem(x, id=id, count=-neededItems[x])
+            await self.giveItem(toCraft, id=id)
+        return f'You\'ve crafted `{toCraft}`!'
+
+    async def openLootBox(self, lootbox_item_name, key_required=False, key_item_name=None, min_quantity=1, max_quantity=4, id=None, member=None):
         """ Open Loot Box Function - return == response """
 
         if lootbox_item_name in self.me.rpg.items:
@@ -304,7 +345,7 @@ class RPG:
                     if self.hasItem(lootbox_item_name, member=member):
                         await self.giveItem(lootbox_item_name, member=member, count=-1)
                         gi = choice(self.me.rpg.items[lootbox_item_name].loot)
-                        gc = randint(1, 4)
+                        gc = randint(min_quantity, max_quantity)
                         await self.giveItem(gi, member=member, count=gc)
                         return f'You opened `{lootbox_item_name}` lootbox and received `{gi} x{gc}`!'
                     else:
